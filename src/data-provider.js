@@ -72,23 +72,16 @@ let physicalStructProvider = ([initialNodes, initialContainers]) => {
     var dt = new Date(cloned.UpdatedAt);
     var color =  stringToColor(cloned.ServiceID);
     let serviceName = cloned.ServiceName;
-    let imageNameRegex = /([^/]+?)(\:([^/]+))?$/;
+    let imageNameRegex = /([^/]+?)(\:([^/@]+))/;
     let imageNameMatches = imageNameRegex.exec(cloned.Spec.ContainerSpec.Image);
     let tagName = imageNameMatches[3];
     let dateStamp = dt.getDate()+"/"+(dt.getMonth()+1)+" "+ dt.getHours()+":"+dt.getMinutes();
     let startState=cloned.Status.State;
 
-
-
-
     let imageTag ="<div style='height: 100%; padding: 5px 5px 5px 5px; border: 2px solid "+color+"'>"+
-        "<span class='contname' style='color: white; font-weight: bold;font-size: 12px'>"+ serviceName +"</span>"+
-        "<br/> image : " + imageNameMatches[0] +
-        "<br/> tag : " + (tagName ? tagName : "latest") +
-        "<br/>" + (cloned.Spec.ContainerSpec.Args?" cmd : "+cloned.Spec.ContainerSpec.Args+"<br/>" : "" ) +
-        " updated : " + dateStamp +
-        "<br/>"+ cloned.Status.ContainerStatus.ContainerID +
-        "<br/> state : "+startState +
+        "<span class='contname' style='color: white; font-weight: bold;font-size: 22px'>"+ serviceName +"</span>"+
+        "<br/>" + imageNameMatches[1] +
+        "<br/>" + (tagName ? tagName : "latest") +
         "</div>";
 
     if (node.Spec.Role=='manager')  {
